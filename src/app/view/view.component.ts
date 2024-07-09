@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import Client from '../client/client';
+import { DataService } from '../data.service';
 
 @Component({
   selector: 'app-view',
@@ -10,18 +10,12 @@ import Client from '../client/client';
 })
 export class ViewComponent {
   username?: string;
-  client: Client;
-  constructor() {
-    this.client = new Client();
+  constructor(private client: DataService) {
 
-    this.getUsername().then(response => {
-      this.username = response
-    });
+    this.getUsername();
   }
 
-  async getUsername(): Promise<string> {
-    const response = await this.client.getUsername();
-    console.log(response);
-    return response;
+  getUsername() {
+    this.username = this.client.getUsername();
   }
 }

@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
-import Client from '../client/client';
-
-const client = new Client();
+import { DataService } from '../data.service';
 
 @Component({
   selector: 'app-login',
@@ -11,7 +9,10 @@ const client = new Client();
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
-  constructor() {
-    client.connectSpotifyUser();
+  constructor(private client: DataService) {
+  }
+
+  ngOnInit() {
+    this.client.connectSpotifyUser();
   }
 }

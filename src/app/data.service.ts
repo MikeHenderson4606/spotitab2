@@ -1,28 +1,45 @@
 import axios from 'axios';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { QueryResult, TabProp } from './types';
+import { Observable } from 'rxjs';
 
 type crypto = {
     verifier: string,
     challenge: string
 }
 
-type TabProp = {
-    searchType: string,
-    value: string,
-    page: number
-}
-
-class Client {
+@Injectable({
+  providedIn: 'root'
+})
+export class DataService {
     api = axios.create({withCredentials: true});
     redirect_uri: string;
     API_BASE: string;
     UG_BASE: string;
 
-    constructor() {
+    constructor(private http: HttpClient) { 
         this.redirect_uri = 'http://localhost:8000/api/spcallback';
         this.API_BASE = 'http://localhost:8000/api';
         this.UG_BASE = 'http://localhost:8000/ug';
     }
 
+    getQueryResults(props: TabProp): Observable<QueryResult[]> {
+        let httpParams = new HttpParams();
+        httpParams = httpParams.append('search_type', props.searchType);
+        httpParams = httpParams.append('value', props.value);
+        httpParams = httpParams.append('page', props.page);
+        console.log("Getting query results");
+
+        return this.http.get<QueryResult[]>(this.UG_BASE + '/queryTabs', { params: httpParams });
+    }
+
+    getUsername(): string {
+        // const response = this.api.get(this.API_BASE + "/username");
+        // return response.data;
+        return 'Username';
+    }
+    
     async generateCryptoKeys(): Promise<crypto> {
         const generateRandomString = (length: number) => {
         const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -79,7 +96,7 @@ class Client {
         }
     
         const headers = {
-        'Content-Type': 'application/json',
+            'Content-Type': 'application/json',
         };
     
         console.log("Logging in user");
@@ -90,28 +107,11 @@ class Client {
         );
     
         if (response.status === 200) {
-        authUrl.search = new URLSearchParams(params).toString();
-        window.location.href = authUrl.toString();
-        return 200;
+            authUrl.search = new URLSearchParams(params).toString();
+            window.location.href = authUrl.toString();
+            return 200;
         } else {
-        return 400;
+            return 400;
         }
     }
-
-    async getUsername(): Promise<string> {
-        const response = await this.api.get(this.API_BASE + "/username");
-        return response.data;
-    }
-
-    async queryTabs(props: TabProp) {
-        var tabProp: TabProp = props;
-        const response = await this.api.get(this.UG_BASE + "/queryTabs", {
-            params: {
-                tabProp
-            }
-        });
-        return response.data;
-    }   
 }
-
-export default Client;
