@@ -5,14 +5,22 @@ type crypto = {
     challenge: string
 }
 
+type TabProp = {
+    searchType: string,
+    value: string,
+    page: number
+}
+
 class Client {
     api = axios.create({withCredentials: true});
     redirect_uri: string;
     API_BASE: string;
+    UG_BASE: string;
 
     constructor() {
         this.redirect_uri = 'http://localhost:8000/api/spcallback';
         this.API_BASE = 'http://localhost:8000/api';
+        this.UG_BASE = 'http://localhost:8000/ug';
     }
 
     async generateCryptoKeys(): Promise<crypto> {
@@ -94,6 +102,16 @@ class Client {
         const response = await this.api.get(this.API_BASE + "/username");
         return response.data;
     }
+
+    async queryTabs(props: TabProp) {
+        var tabProp: TabProp = props;
+        const response = await this.api.get(this.UG_BASE + "/queryTabs", {
+            params: {
+                tabProp
+            }
+        });
+        return response.data;
+    }   
 }
 
 export default Client;
