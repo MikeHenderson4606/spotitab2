@@ -1,0 +1,17 @@
+input:focus, textarea:focus, select:focus {
+    outline: none;
+    box-shadow: none; /* Optional: Removes the Bootstrap box-shadow */
+}
+
+.accordion-button:focus {
+    outline: none;
+    box-shadow: none; /* Optional: Removes the Bootstrap box-shadow */
+}
+
+.ug-hover-lgray {
+    transition: 0.3s;
+}
+
+.ug-hover-lgray:hover {
+    background-color: lightgray;
+}

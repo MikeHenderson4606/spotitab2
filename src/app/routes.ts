@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { ViewComponent } from './view/view.component';
+import { SearchComponent } from './search/search.component';
 
 const routeConfig: Routes = [
     {
@@ -15,9 +16,9 @@ const routeConfig: Routes = [
         title: 'Login page'
     },
     {
-        path: 'view',
-        component: ViewComponent,
-        title: 'View page'
+        path: 'search',
+        component: SearchComponent,
+        title: 'Search page'
     }
   ];
   

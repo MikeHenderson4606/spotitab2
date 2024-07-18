@@ -1,9 +1,56 @@
+import { Observable } from "rxjs"
 
 
 export type TabProp = {
     searchType: string,
     value: string,
     page: number
+}
+
+export type GlobalState = {
+    selectedTab: string,
+    artistName: string,
+    songName: string,
+    isLoggedIn: boolean
+}
+
+export type TabData = {
+    tabText: string,
+    artistName: string,
+    songName: string,
+    songUrl: string
+}
+
+export type QueryResult = {
+    album_cover: AlbumCover;
+    artist_cover: ArtistCover;
+    artist_id: number;
+    artist_name: string;
+    artist_url: string;
+    date: string;
+    difficulty: string;
+    id: number;
+    part: string;
+    preset_id: number;
+    rating: number;
+    recording: Recording;
+    song_id: number;
+    song_name: string;
+    status: string;
+    tab_access_type: string;
+    tab_url: string;
+    tonality_name: string;
+    tp_version: number;
+    type: string;
+    verified: number;
+    version: number;
+    version_description: string;
+    votes: number;
+}
+
+export type ObservableQueryResponse = {
+    tabResponse: Observable<QueryResult[]>,
+    totalTabs: Observable<number>
 }
 
 type AlbumCover = {
@@ -41,31 +88,4 @@ type Performance = {
     type: string;
     venue: string;
     video_urls: string[];
-}
-
-export type QueryResult = {
-    album_cover: AlbumCover;
-    artist_cover: ArtistCover;
-    artist_id: number;
-    artist_name: string;
-    artist_url: string;
-    date: string;
-    difficulty: string;
-    id: number;
-    part: string;
-    preset_id: number;
-    rating: number;
-    recording: Recording;
-    song_id: number;
-    song_name: string;
-    status: string;
-    tab_access_type: string;
-    tab_url: string;
-    tonality_name: string;
-    tp_version: number;
-    type: string;
-    verified: number;
-    version: number;
-    version_description: string;
-    votes: number;
 }

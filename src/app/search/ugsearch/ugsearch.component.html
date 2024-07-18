@@ -1,0 +1,89 @@
+<div>
+    <h2 class="text-center">
+        Ultimate-Guitar Search
+    </h2>
+    <div class="input-group mb-2">
+        <input class="form-control" 
+                placeholder="Search for Tabs" 
+                aria-describedby="submit-button"
+                [formControl]="ugSearchInput"/>
+        <button class="btn btn-outline-secondary" 
+                id="submit-button" 
+                (click)="submitQuery()">Submit</button>
+    </div>
+
+    <div class="input-group mb-2"
+        [ngClass]="tabData.tabText ? '' : 'd-none'">
+        <label class="form-control">Selected Tab: {{tabData.songName}} by {{tabData.artistName}}</label>
+    </div>
+
+    <div class="input-group">
+        <label class="form-control rounded-bottom-0">
+                Search Results
+                <span class="float-end"
+                        [ngClass]="displaySearchBorder ? 'd-none' : ''">
+                    Page {{pageNumber}} / {{totalPages}}
+                </span>
+        </label>
+        <button class="btn btn-outline-secondary"
+                (click)="pageDown()"><</button>
+        <button class="btn btn-outline-secondary rounded-bottom-0"
+                (click)="pageUp()">></button>
+    </div>
+    <div class="accordion rounded-top-0" id="accordion">
+        <div class="accordion-item border-top-0 rounded-top-0 focus-ring-0" *ngFor="let collection of tabs; let i = index">
+            <div class="accordion-header">
+                <h5 class="mb-0">
+                    <button class="accordion-button collapsed rounded-top-0" 
+                            data-bs-toggle="collapse" 
+                            [attr.data-bs-target]="'#collapse' + i" 
+                            aria-expanded="false" 
+                            [attr.aria-controls]="'collapse' + i">
+                        {{collection[0].song_name}} by {{collection[0].artist_name}}
+                    </button>
+                </h5>
+            </div>
+            
+            <div [id]="'collapse' + i" 
+                class="accordion-collapse collapse"
+                data-bs-parent="#accordion">
+                <div class="accordion-body">
+                    <div class="list-group">
+                        <button *ngFor="let tab of collection; let j = index"
+                                (click)="updateSelectedTab(tab.tab_url)"
+                                data-bs-toggle="modal"
+                                data-bs-target="#previewModal"
+                                class="list-group-item ug-hover-lgray">
+                                <div>
+                                    {{tab.song_name}} by {{tab.artist_name}} {{tab.type}}
+                                </div>
+                                <div>
+                                    Stars: {{tab.rating}} from {{tab.votes}} ratings.
+                                </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="previewModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title">Tab Preview</h1>
+                </div>
+                <div class="modal-body">
+                    <div style="white-space: pre-wrap; font-family: courier;">
+                        {{tabData.tabText}}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="clearSelectedTab()">Close</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Select</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

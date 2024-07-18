@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { QueryResult, TabProp } from './types';
+import { QueryResult, TabProp, ObservableQueryResponse, TabData } from '../types';
 import { Observable } from 'rxjs';
 
 type crypto = {
@@ -30,8 +30,15 @@ export class DataService {
         httpParams = httpParams.append('value', props.value);
         httpParams = httpParams.append('page', props.page);
         console.log("Getting query results");
+        const tabResponse = this.http.get<QueryResult[]>(this.UG_BASE + '/queryTabs', { params: httpParams });
+        return tabResponse;
+    }
 
-        return this.http.get<QueryResult[]>(this.UG_BASE + '/queryTabs', { params: httpParams });
+    getTabData(tabURL: string): Observable<TabData> {
+        let httpParams = new HttpParams();
+        httpParams = httpParams.append('tabURL', tabURL);
+        console.log("Getting tab info");
+        return this.http.get<TabData>(this.UG_BASE + '/getTabInfo', { params: httpParams });
     }
 
     getUsername(): string {
