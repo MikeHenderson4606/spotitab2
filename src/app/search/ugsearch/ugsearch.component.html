@@ -1,7 +1,6 @@
 <div>
-    <h2 class="text-center">
-        Ultimate-Guitar Search
-    </h2>
+    <img src="assets/ultimate-guitar-icon.png" class="rounded mx-auto d-block mb-1" style="width: 50px; height: 50px;" alt="Ultimate-Guitar Search">
+    
     <div class="input-group mb-2">
         <input class="form-control" 
                 placeholder="Search for Tabs" 
@@ -13,11 +12,12 @@
     </div>
 
     <div class="input-group mb-2"
-        [ngClass]="tabData.tabText ? '' : 'd-none'">
+        [ngClass]="tabData.songName ? '' : 'd-none'">
         <label class="form-control">Selected Tab: {{tabData.songName}} by {{tabData.artistName}}</label>
     </div>
 
-    <div class="input-group">
+    <div class="input-group"
+            [ngClass]="displaySearchBorder ? 'd-none' : ''">
         <label class="form-control rounded-bottom-0">
                 Search Results
                 <span class="float-end"
@@ -49,18 +49,25 @@
                 data-bs-parent="#accordion">
                 <div class="accordion-body">
                     <div class="list-group">
-                        <button *ngFor="let tab of collection; let j = index"
-                                (click)="updateSelectedTab(tab.tab_url)"
-                                data-bs-toggle="modal"
-                                data-bs-target="#previewModal"
+                        <div *ngFor="let tab of collection; let j = index"
                                 class="list-group-item ug-hover-lgray">
                                 <div>
                                     {{tab.song_name}} by {{tab.artist_name}} {{tab.type}}
+                                    <button class="float-end btn btn-sm btn-outline-primary"
+                                            (click)="updateSelectedTab(tab.tab_url)">
+                                        Select
+                                    </button>
+                                    <button class="float-end me-1 btn btn-sm btn-outline-secondary"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#previewModal"
+                                            (click)="previewTab(tab.tab_url)">
+                                        Preview
+                                    </button>
                                 </div>
                                 <div>
-                                    Stars: {{tab.rating}} from {{tab.votes}} ratings.
+                                    {{tab.rating}} Stars from {{tab.votes}} ratings.
                                 </div>
-                        </button>
+                            </div>
                     </div>
                 </div>
             </div>
@@ -79,8 +86,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="clearSelectedTab()">Close</button>
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Select</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="selectPreviewedTab()">Select</button>
                 </div>
             </div>
         </div>

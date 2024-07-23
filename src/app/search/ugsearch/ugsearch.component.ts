@@ -74,6 +74,17 @@ export class UGSearchComponent {
     });
   }
 
+  previewTab(tabURL: string): void {
+    this.client.getTabData(tabURL).subscribe((response) => {
+      this.tabData.tabText = this.formatTab(response.tabText);
+      this.tabData.songUrl = tabURL;
+    })
+  }
+
+  selectPreviewedTab(): void {
+    this.updateSelectedTab(this.tabData.songUrl);
+  }
+
   updateSelectedTab(tabURL: string): void {
     const currentLoggedInState: boolean = this.globalService.globalState.value.isLoggedIn;
     this.client.getTabData(tabURL).subscribe((response) => {
