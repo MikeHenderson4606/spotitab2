@@ -10,9 +10,10 @@ export class GlobalService {
   public globalState = new BehaviorSubject<GlobalState>({
     selectedTab: '',
     artistName: '',
-    songName: '',
-    isLoggedIn: false
+    songName: ''
   });
+
+  public loggedInState = new BehaviorSubject<boolean>(false);
 
   constructor() { }
 }

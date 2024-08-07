@@ -10,8 +10,7 @@ export type TabProp = {
 export type GlobalState = {
     selectedTab: string,
     artistName: string,
-    songName: string,
-    isLoggedIn: boolean
+    songName: string
 }
 
 export type TabData = {

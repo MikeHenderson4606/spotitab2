@@ -1,0 +1,7 @@
+.custom-nav-pills.nav-link {
+    background-color: gray;
+}
+
+.custom-nav-pills .nav-link.active {
+    background-color: rgb(209, 209, 209);
+}

@@ -114,11 +114,22 @@ export class DataService {
         );
     
         if (response.status === 200) {
+            localStorage.setItem("isLoggedIn", "true");
             authUrl.search = new URLSearchParams(params).toString();
             window.location.href = authUrl.toString();
             return 200;
         } else {
+            localStorage.setItem("isLoggedIn", "false");
             return 400;
+        }
+    }
+
+    getLoggedInStatus(): boolean {
+        console.log(localStorage);
+        if (localStorage.getItem("isLoggedIn") === "true") {
+            return true;
+        } else {
+            return false;
         }
     }
 }

@@ -86,14 +86,12 @@ export class UGSearchComponent {
   }
 
   updateSelectedTab(tabURL: string): void {
-    const currentLoggedInState: boolean = this.globalService.globalState.value.isLoggedIn;
     this.client.getTabData(tabURL).subscribe((response) => {
       console.log(response);
       this.globalService.globalState.next({
         selectedTab: response.tabText,
         artistName: response.artistName,
-        songName: response.songName,
-        isLoggedIn: currentLoggedInState
+        songName: response.songName
       });
       this.tabData = {
         tabText: this.formatTab(response.tabText),
@@ -134,12 +132,10 @@ export class UGSearchComponent {
       songName: '',
       songUrl: ''
     };
-    const currentLoggedInState: boolean = this.globalService.globalState.value.isLoggedIn;
     this.globalService.globalState.next({
       selectedTab: "",
       artistName: "",
-      songName: "",
-      isLoggedIn: currentLoggedInState
+      songName: ""
     });
   }
 }
