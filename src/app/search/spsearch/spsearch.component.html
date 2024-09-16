@@ -2,16 +2,17 @@
     <div [ngClass]="isLoggedIn ? 'd-none' : '' ">
         Please log in to Spotify here:
     </div>
-    <div [ngClass]="!isLoggedIn ? 'd-none' : '' ">
-        <div class="input-group mb-2">
-        <input class="form-control" 
-                placeholder="Search for Songs" 
-                aria-describedby="submit-button"
-                [formControl]="spSearchInput"/>
-        <button class="btn btn-outline-secondary" 
-                id="submit-button" 
-                >Submit</button>
-    </div>
+        <div [ngClass]="!isLoggedIn ? 'd-none' : '' ">
+            <div class="input-group mb-2">
+            <input class="form-control" 
+                    placeholder="Search for Songs" 
+                    aria-describedby="submit-button"
+                    [formControl]="spSearchInput"/>
+            <button class="btn btn-outline-secondary" 
+                    id="submit-button" 
+                    (click)="querySongs()"
+                    >Submit</button>
+        </div>
     </div>
     
 </div>

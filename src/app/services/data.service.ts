@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { QueryResult, TabProp, ObservableQueryResponse, TabData } from '../types';
+import { QueryResult, TabProp, ObservableQueryResponse, TabData, SPQueryResult } from '../types';
 import { Observable } from 'rxjs';
 
 type crypto = {
@@ -15,12 +15,12 @@ type crypto = {
 export class DataService {
     api = axios.create({withCredentials: true});
     redirect_uri: string;
-    API_BASE: string;
+    SP_BASE: string;
     UG_BASE: string;
 
     constructor(private http: HttpClient) { 
-        this.redirect_uri = 'http://localhost:8000/api/spcallback';
-        this.API_BASE = 'http://localhost:8000/api';
+        this.redirect_uri = 'http://localhost:8000/sp/spcallback';
+        this.SP_BASE = 'http://localhost:8000/sp';
         this.UG_BASE = 'http://localhost:8000/ug';
     }
 
@@ -45,6 +45,22 @@ export class DataService {
         // const response = this.api.get(this.API_BASE + "/username");
         // return response.data;
         return 'Username';
+    }
+
+    querySongs(songName: string, queryType: string, limit: number, offset: number): Observable<SPQueryResult> {
+        let httpParams = new HttpParams();
+        httpParams = httpParams.append('songName', songName);
+        httpParams = httpParams.append('queryType', queryType);
+        httpParams = httpParams.append('limit', limit);
+        httpParams = httpParams.append('offset', offset);
+        console.log(this.SP_BASE + '/querySongs?' + httpParams.toString());
+
+        const response = this.http.get<SPQueryResult>(this.SP_BASE + '/querySongs?', { 
+            params: httpParams,
+            withCredentials: true 
+        });
+        console.log(response);
+        return response;
     }
     
     async generateCryptoKeys(): Promise<crypto> {
@@ -107,7 +123,7 @@ export class DataService {
         };
     
         console.log("Logging in user");
-        const response = await this.api.get(`${this.API_BASE}/setCodeVerifier/${codeVerifier}`, 
+        const response = await this.api.get(`${this.SP_BASE}/setCodeVerifier/${codeVerifier}`, 
         {
             headers: headers
         }

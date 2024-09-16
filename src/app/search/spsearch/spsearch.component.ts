@@ -20,4 +20,8 @@ export class SpsearchComponent {
   ) {
     this.isLoggedIn = this.client.getLoggedInStatus();
   }
+
+  querySongs() {
+    this.client.querySongs("something in the orange", "track", 20, 0).subscribe();
+  }
 }
